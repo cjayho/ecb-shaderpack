@@ -22,7 +22,7 @@ void        hmodel                 (out half3 hdiffuse, out half3 hspecular, hal
 	half3 	v2point	= mul		(m_v2w,v2pointL);
 	half3	vreflect= reflect 	(v2point,nw);
 
-	half 	hspec 	= /*.5h+.5h**/dot	(vreflect,v2point);
+	half 	hspec 	= .5h+.5h*dot	(vreflect,v2point);
 
 	// material
   	half4 	light	= tex3D		(s_material, half3(hscale, hspec, m) );		// sample material
@@ -55,7 +55,7 @@ void         hmodel_table        (out half3 hdiffuse, out half3 hspecular, half 
 	half3 	v2point	= normalize	(point);
 	half3	vreflect= reflect 	(v2point,normal);
 
-	half 	hspec 	= /*.5h+.5h**/dot	(vreflect,v2point);
+	half 	hspec 	= .5h+.5h*dot	(vreflect,v2point);
 
 	// material
   	half4 	light	= tex3D		(s_material, half3(hscale, hspec, m) );		// sample material

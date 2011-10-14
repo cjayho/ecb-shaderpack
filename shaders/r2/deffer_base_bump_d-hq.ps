@@ -32,7 +32,7 @@ f_deffer 	main	( p_bumped I )
 
 	O.Ne 		= half4		(Ne, 										h*ECB_S2		);
 	O.position  = half4 	(I.position.xyz + Ne*S.height*def_virtualh, ms		);
-	O.C			= half4		( lerp( 0.f, ECB_ANTI_OVERBRIGHT, (S.base.xyz * 1.685) ECB_H2 ), S.gloss	);							// OUT: rgb.gloss
+	O.C			= half4		( lerp( 0.f, ECB_ANTI_OVERBRIGHT, (S.base.xyz * 1.685) ECB_H2 ), .3f+.7f*S.gloss	);							// OUT: rgb.gloss
 
   return O;
 }
