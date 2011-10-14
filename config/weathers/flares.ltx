@@ -1,0 +1,75 @@
+[flares_common]
+flares                  = on
+gradient                 = on
+source                  = on
+source_ignore_color		= false
+blend_time			= 0
+blend_rise_time			= 0 ;(сек)
+blend_down_time			= 0 ;(сек)
+gradient_shader          = effects\gradient
+source_shader            = effects\ecbsun
+flare_shader			= effects\flare
+flare_radius             = 0.080, 0.120, 0.040, 0.080, 0.120, 0.300
+flare_opacity            = 0.340, 0.260, 0.500, 0.420, 0.260, 0.260
+flare_position           = 1.300, 1.000, 0.500, -0.300, -0.600, -1.000
+flare_textures           = fx\fx_flare1, fx\fx_flare2, fx\fx_flare2, fx\fx_flare2, fx\fx_flare3, fx\fx_flare1
+source_texture           = fx\fx_sun
+gradient_texture         = fx\fx_gradient
+
+; ----- overrides -----
+
+[flares_moon]:flares_common
+gradient_opacity         = 0.9
+gradient_radius          = 0.20
+gradient_texture         = fx\fx_gradient1
+flare_shader			= effects\flare
+source_radius           = 0.03
+source_texture          = fx\fx_moon
+source_shader			= effects\ecbmoon
+flares                   = off
+
+[flares_moon2]:flares_common ; for sergy172's cosmetic weather
+gradient_texture         = fx\fx_gradient
+flare_shader		 = effects\flare
+source_texture           = fx\fx_moon
+source_shader		 = effects\ecbmoon
+flares                   = off
+gradient_opacity         = 5.0 ;0.75
+gradient_radius          = 0.05
+source_ignore_color	 = true
+
+[flares_sun_rise]:flares_common
+gradient_opacity         = 0.85
+gradient_radius          = 0.400
+source_radius            = 0.03
+source_texture           = fx\fx_sun_rise
+
+[flares_default10]:flares_common
+gradient_opacity         = 0.75
+gradient_radius          = 0.7000
+source_radius            = 0.150
+
+[flares_default_0_10]:flares_common
+gradient_opacity         = 0.85
+gradient_radius          = 0.4000
+source_radius            = 0.15
+
+[flares_default]:flares_common
+gradient_opacity         = 0.75
+gradient_radius          = 0.7000
+source_radius            = 0.150
+
+[flares_gradient]:flares_common
+flare_opacity            = 0.060, 0.040, 0.100, 0.080, 0.040, 0.040
+gradient_opacity         = 0.75
+gradient_radius          = 0.7000
+gradient_texture         = fx\fx_gradient1
+source_radius            = 0.150
+
+[flares_gradient1]:flares_gradient
+gradient_opacity         = 1
+gradient_radius          = 0.5000
+
+
+
+
