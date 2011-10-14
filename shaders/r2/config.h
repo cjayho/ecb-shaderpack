@@ -27,7 +27,7 @@
 
 #define ECB_BLOOM_DIV 0.69h // на каком значении картинка становитс€ блумом.
 #define ECB_BLOOM_SKYDIV 0.92h // на каком значении картинка становитс€ блумом (небо)
-#define ECB_BLOOM_BRIGHTNESS 1.0f // €ркость блума
+#define ECB_BLOOM_BRIGHTNESS 1.2f // €ркость блума
 #define ECB_SPECULAR 0.61f // €ркость бликов
 #define ECB_DIFFUSE_AMBIENT_SAT 0.9f // цветность диффузного амбиента
 //#define ECB_SHADOW_LENGTH 3.0f // удлинение теней в n раз (экспериментальна€ фича)

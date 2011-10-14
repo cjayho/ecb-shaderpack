@@ -1,22 +1,23 @@
 #include "common.h"
+#include "lmodel.h"
 #include "hmodel.h"
 
-struct 	_input        	{
-	float4 	hpos	: POSITION	;
-#ifdef	USE_VTF
-  	float4 	tc0	: TEXCOORD0	;	// tc.xy, tc.w = tonemap scale
+struct         _input      {
+        float4         hpos        : POSITION        ;
+#ifdef        USE_VTF
+          float4         tc0                : TEXCOORD0        ;        // tc.xy, tc.w = tonemap scale
 #else
-  	float2 	tc0	: TEXCOORD0	;	// tc.xy 
+          float2         tc0                : TEXCOORD0        ;        // tc.xy
 #endif
 };
 
-struct	_out		{
-	half4	low	: COLOR0	;
-	half4	high	: COLOR1	;
+struct        _out                {
+        half4        low                : COLOR0        ;
+        half4        high        : COLOR1        ;
 };
 
-uniform sampler1D 	fog_table	;
-_out 	main		( _input I )
+uniform sampler1D         fog_table        ;
+_out         main                ( _input I )
 {
   	// Sample the buffers:
   	half4 P 	= tex2D 	(s_position, 	I.tc0);
@@ -32,6 +33,15 @@ _out 	main		( _input I )
 #ifdef 	USE_GAMMA_22
 	D.rgb		= (D.rgb*D.rgb);	// pow(2.2)
 #endif
+
+        // static sun
+	half mtl 		= P.w;
+#ifdef        USE_R2_STATIC_SUN
+	half	sun_occ        	=       P.w	;
+			mtl 			= 		xmaterial;
+            L              +=       sat( Ldynamic_color * sun_occ * plight_infinity	(mtl, P.xyz, N.xyz, Ldynamic_dir), ECB_SUN_SAT );
+#endif
+
 	// hemisphere
 	half3 		hdiffuse,hspecular;
 	hmodel		(hdiffuse, hspecular, P.w, N.w, D.w, P.xyz, N.xyz);
@@ -68,6 +78,7 @@ _out 	main		( _input I )
 	half  	tm_scale	= I.tc0.w;		// interpolated from VS
 #else
 	half 	tm_scale 	= tex2D	(s_tonemap,I.tc0).x;
+	//half 	tm_scale 	= tex2D	(s_tonemap,I.tc0).w;
 #endif
 	_out	o;
 	tonemap	(o.low,o.high, color, tm_scale );
