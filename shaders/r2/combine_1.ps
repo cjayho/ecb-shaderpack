@@ -82,5 +82,6 @@ _out         main                ( _input I )
 #endif
 	_out	o;
 	tonemap	(o.low,o.high, color, tm_scale );
+	o.high.a = (half) saturate (fog*fog);
   	return 	o;
 }
