@@ -10,9 +10,25 @@ f_deffer 	main	( p_bumped I )
   // Sample normal, rotate it by matrix, encode position 
   half3 Ne  = mul       (half3x3(I.M1, I.M2, I.M3), S.normal);
 		Ne	= normalize	(Ne);
-  O.Ne 		= half4		(Ne, S.base.w*0.05);
-  O.position= half4 	(I.position.xyz + Ne*S.height*def_virtualh, xmaterial);
-  O.C		= half4		( clamp( S.base.xyz, L_ambient.rgb, 1.f ), S.gloss );		// OUT: rgb.gloss
+
+	// hemi,sun,material
+	half 	ms	= xmaterial		;
+#ifdef USE_LM_HEMI
+	half4	lm 	= tex2D			(s_hemi, I.lmh);
+	half 	h  	= dot			(lm.rgb,1.h/3.h);
+# ifdef USE_R2_STATIC_SUN
+		 	ms 	= lm.w;
+# endif
+#else
+	half 	h	= I.position.w	;
+# ifdef USE_R2_STATIC_SUN
+		 	ms	= I.tcdh.w		;
+# endif
+#endif
+
+  O.Ne 		= half4		(Ne, h*ECB_S1);
+  O.position= half4 	(I.position.xyz + Ne*S.height*def_virtualh, ms );
+  O.C		= half4		( lerp( 0.f, ECB_ANTI_OVERBRIGHT, S.base.xyz ECB_H ), S.gloss );		// OUT: rgb.gloss
 
   return O;
 }

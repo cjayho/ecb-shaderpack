@@ -5,5 +5,5 @@ function normal(shader, t_base, t_second, t_detail)
 		: zb                (true,true)
 		: fog (false)
 		: sampler("s_base") : texture  (t_base)        : wrap() : f_anisotropic()
-
 end
+

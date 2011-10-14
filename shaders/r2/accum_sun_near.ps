@@ -34,7 +34,6 @@ float4 	main		( float2 tc : TEXCOORD0, float4 tcJ : TEXCOORD1 ) : COLOR
 	  s 	*= shadow		(PS);
 	#endif
 
-	return 		sat( blend( Ldynamic_color * light * s, tc ), ECB_SUN_SAT )*ECB_SUN_FAR;
-//	return blend( lerp( ( Ldynamic_color * light * s ), Ldynamic_color, light ), tc )*0.333f;
+	return 		sat( blend( Ldynamic_color * light * s, tc ), ECB_SUN_SAT );
 }
 #endif

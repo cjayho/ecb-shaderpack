@@ -13,6 +13,6 @@ uniform sampler2D s_gradient;
 
 inline half4 main_ps_1_1 ( p_TL I ) : COLOR
 {
-	float4	t_base 	= tex2D( s_gradient, I.Tex0 ) * float4( L_sun_color, .5h );
+	float4	t_base 	= tex2D( s_gradient, I.Tex0 ) * float4( L_sun_color, 1 );
 	return  half4 ( t_base.r, t_base.g, t_base.b, t_base.a );
 }

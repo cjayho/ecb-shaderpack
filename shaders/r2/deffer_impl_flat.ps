@@ -46,23 +46,16 @@ f_deffer 	main	( p_flat I 		)
 	 half3	n_B = (n_Bt-0.5)*mask.b; 
 	 half3	n_A = (n_At-0.5)*mask.a; 
 
-#ifndef USE_ECBOPTS
 	half g_R=n_Rt.w*mask.r;
 	half g_G=n_Gt.w*mask.g;
 	half g_B=n_Bt.w*mask.b;
 	half g_A=n_At.w*mask.a;
-#else
-	half4 ecb_g = half4( n_Rt.w, n_Gt.w, n_Bt.w, n_At.w ) * mask.rgba;
-	G = dot( ecb_g, 1 );
-#endif
 
 	 half3	mix		= 	n_R+n_G+n_B+n_A;
 			mix.z	*=	0.5;		//. make bump twice as contrast (fake, remove me if possible)
 	 half3	N		= 	mul     	(half3x3(I.M1, I.M2, I.M3), mix.xyz);
 
-#ifndef USE_ECBOPTS
-	 	 	G 		= 	g_R+g_G+g_B+g_A;
-#endif
+	 	 	G 		= 	g_R+g_G+g_B*g_A;
 
 //			G 	= 0			;
 //			G 	= mix.w		;		// gloss
@@ -82,11 +75,13 @@ f_deffer 	main	( p_flat I 		)
 # ifdef USE_R2_STATIC_SUN
 		 	ms 	= L.w		;
 # endif
+	half h = D.w;
 
   // 2. Standart output
-  O.Ne          = half4		(normalize(N), 									D.w*0.04			);	// hemi
+  O.Ne          = half4		(normalize(N), 									h*ECB_S3			);	// hemi
   O.position    = half4 	(I.position.xyz + O.Ne.xyz*def_virtualh/2.h, 	ms			);	//
-  O.C			= half4		( clamp( ( D.xyz * 2.2f ), L_ambient, 1.f ), G	);	// OUT: rgb.gloss
+
+  O.C			= half4		( lerp( 0.f, ECB_ANTI_OVERBRIGHT, ( D.xyz * 2.1f ) ECB_H ), G	);	// OUT: rgb.gloss
 
   return O;
 }

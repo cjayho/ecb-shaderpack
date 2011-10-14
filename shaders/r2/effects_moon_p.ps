@@ -10,5 +10,5 @@ struct	p_TL
 // Pixel
 float4 main( p_TL I ) : COLOR
 {
-	return tex2D( s_base, I.Tex0 ) * float4( ( L_sun_color * 4 ), 1 );
+	return saturation( tex2D( s_base, I.Tex0 ) * float4( ( L_sun_color.rgb * 4 ), 2 ) );
 }

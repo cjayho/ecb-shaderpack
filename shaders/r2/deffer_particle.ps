@@ -19,6 +19,6 @@ f_deffer 	main	( p_particle II )
   // 2. Standart output
   O.Ne          = half4		(normalize((half3)I.N.xyz)					, I.position.w	);
   O.position    = half4 	(I.position.xyz + O.Ne.xyz*def_virtualh/2.h	, xmaterial		);
-  O.C			= half4		( clamp( D.xyz, L_ambient, 1.f ),			def_gloss);		// OUT: rgb.gloss
+  O.C			= saturation( half4		( lerp( 0.f, ECB_ANTI_OVERBRIGHT, D.xyz ), def_gloss) );		// OUT: rgb.gloss
   return O;
 }

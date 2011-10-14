@@ -14,6 +14,6 @@ function normal( shader, t_base, t_second, t_detail )
 		: f_linear	()
 		--: wrap()
 		--: f_anisotropic()
-	
+
 end
 

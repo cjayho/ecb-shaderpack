@@ -23,7 +23,7 @@ v2p_TL main ( v_TL I )
 	O.HPos = mul(m_VP, I.P);
 	O.HPos.z = O.HPos.w;
 	O.Tex0 = I.Tex0;
-	O.Color = I.Color;
+	O.Color = float4( I.Color.rgb, 1 );
 
  	return O;
 }

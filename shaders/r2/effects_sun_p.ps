@@ -6,9 +6,11 @@ struct	p_TL
 	float4	Color	: COLOR0;
 };
 
+uniform sampler2D       s_gradient;             	//
+
 //////////////////////////////////////////////////////////////////////////////////////////
 // Pixel
 float4 main( p_TL I ) : COLOR
 {
-	return tex2D( s_base, I.Tex0 ) * half4( L_sun_color, 1 );
+	return ( tex2D( s_base, I.Tex0 ) * half4( L_sun_color, 2 ) );
 }

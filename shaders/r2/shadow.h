@@ -53,8 +53,13 @@ half 	shadow_sw	(float4 tc)	{
 half  	sample_hw_pcf	(float4 tc,float4 shift){
 	static const float 	ts = ECB_SHADOW_KERNEL / float(SMAP_size);
 
-	half3 tst = tex2Dproj (s_smap,tc + tc.w*shift*ts);
-	return dot( tst.xyz, 1.h/3.h );
+//	half tst = tex2Dproj( s_smap, tc + tc.w * shift * ts ).x;
+//	return tst;
+
+	float4 tc2 = tc / tc.w + shift * ts;
+	tc2.w = 0;
+	return tex2Dlod(s_smap, tc2);
+
 }
 half 	shadow_hw	( float4 tc )
 {
@@ -67,31 +72,48 @@ version 1.1 by cj ayho (ecb team) 13.04.2011 - оптимизация
 */
 
   half4 s0;
-  half s;
+
   int n = ECB_SHADOW_STEPS;
-
-  float precalc = 1.h/8.h;
-
-	s = sample_hw_pcf ( tc, float4( 0, 0, 0, 0 ) );
 
 	for( int i = 0; i < n; i++ )
 	{
-		s0 = half4( 
-					sample_hw_pcf ( tc, float4( -i, -i, 0, 0 ) ), 
-					sample_hw_pcf ( tc, float4( +i, -i, 0, 0 ) ), 
-					sample_hw_pcf ( tc, float4( -i, +i, 0, 0 ) ), 
-					sample_hw_pcf ( tc, float4( +i, +i, 0, 0 ) ) 
-			) + half4( 
-					sample_hw_pcf ( tc, float4( 0, +i, 0, 0 ) ), 
-					sample_hw_pcf ( tc, float4( 0, -i, 0, 0 ) ), 
-					sample_hw_pcf ( tc, float4( +i, 0, 0, 0 ) ), 
-					sample_hw_pcf ( tc, float4( -i, 0, 0, 0 ) ) 
-			);
 
-		s += dot( s0, precalc );
+		int ii = i + 1;
+		int iii = i + 2;
+
+					s0.x += sample_hw_pcf ( tc, float4( -i, -i, 0, 0 ) );
+					s0.y += sample_hw_pcf ( tc, float4( +i, -i, 0, 0 ) );
+					s0.z += sample_hw_pcf ( tc, float4( -i, +i, 0, 0 ) );
+					s0.w += sample_hw_pcf ( tc, float4( +i, +i, 0, 0 ) );
+
+					s0.x += sample_hw_pcf ( tc, float4( 0, +i, 0, 0 ) );
+					s0.y += sample_hw_pcf ( tc, float4( 0, -i, 0, 0 ) );
+					s0.z += sample_hw_pcf ( tc, float4( +i, 0, 0, 0 ) );
+					s0.w += sample_hw_pcf ( tc, float4( -i, 0, 0, 0 ) );
+
+					s0.x += sample_hw_pcf ( tc, float4( -ii, -ii, 0, 0 ) );
+					s0.y += sample_hw_pcf ( tc, float4( +ii, -ii, 0, 0 ) );
+					s0.z += sample_hw_pcf ( tc, float4( -ii, +ii, 0, 0 ) );
+					s0.w += sample_hw_pcf ( tc, float4( +ii, +ii, 0, 0 ) );
+
+					s0.x += sample_hw_pcf ( tc, float4( 0, +ii, 0, 0 ) );
+					s0.y += sample_hw_pcf ( tc, float4( 0, -ii, 0, 0 ) );
+					s0.z += sample_hw_pcf ( tc, float4( +ii, 0, 0, 0 ) );
+					s0.w += sample_hw_pcf ( tc, float4( -ii, 0, 0, 0 ) );
+
+					s0.x += sample_hw_pcf ( tc, float4( -iii, -iii, 0, 0 ) );
+					s0.y += sample_hw_pcf ( tc, float4( +iii, -iii, 0, 0 ) );
+					s0.z += sample_hw_pcf ( tc, float4( -iii, +iii, 0, 0 ) );
+					s0.w += sample_hw_pcf ( tc, float4( +iii, +iii, 0, 0 ) );
+
+					s0.x += sample_hw_pcf ( tc, float4( 0, +iii, 0, 0 ) );
+					s0.y += sample_hw_pcf ( tc, float4( 0, -iii, 0, 0 ) );
+					s0.z += sample_hw_pcf ( tc, float4( +iii, 0, 0, 0 ) );
+					s0.w += sample_hw_pcf ( tc, float4( -iii, 0, 0, 0 ) );
+
 	}
 
-	return ( s / n );
+	return dot ( s0, 1.f / ( 24 * n ) );
 /*
 </mod>
 */

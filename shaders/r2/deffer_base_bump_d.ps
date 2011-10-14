@@ -1,3 +1,7 @@
+// шейдер отвечает за столбики и домики
+
+#define USE_TDETAIL	//- shader defined
+
 #include "common.h"
 #include "sload.h"
 
@@ -29,7 +33,7 @@ f_deffer 	main	( p_bumped I )
 
 	O.Ne 		= half4		(Ne, 										h*ECB_S2		);
 	O.position  = half4 	(I.position.xyz + Ne*S.height*def_virtualh, ms		);
-	O.C			= half4		( lerp( 0.f, ECB_ANTI_OVERBRIGHT, S.base.xyz * 1.55 ECB_H ), S.gloss	);							// OUT: rgb.gloss
+	O.C			= half4		( lerp( 0.f, ECB_ANTI_OVERBRIGHT, (S.base.xyz * 1.3) ECB_H3 ), S.gloss	);							// OUT: rgb.gloss
 
   return O;
 }

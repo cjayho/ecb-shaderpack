@@ -14,8 +14,7 @@ p_flat 	main	( v_static I )
 	O.position	= float4	(Pe, 	I.Nh.w	);
 
 #if defined(USE_R2_STATIC_SUN) && !defined(USE_LM_HEMI)
-	float 	s	= I.color.w	;							// (r,g,b,dir-occlusion)
-	O.tcdh.w	= s;
+	O.tcdh.w	= (float)I.color.w	;							// (r,g,b,dir-occlusion)
 #endif
 
 #ifdef	USE_TDETAIL

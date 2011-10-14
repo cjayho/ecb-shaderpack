@@ -25,14 +25,13 @@ _out         main               ( v2p I )
         float3         	s1      = texCUBE        (s_sky1,I.tc1);
         float3        	sky     = I.factor*lerp  (s0,s1,I.factor.w);
 
+		sky *= 0.9f;
+
         // final tone-mapping
         _out        	o;
-#ifdef        USE_VTF
-        o.low        	=		sky.xyzz		;
-        o.high        	=		(o.low*0.5h)/def_hdr	;
-#else
-        float    scale   = tex2D(s_tonemap,half2(.5h,.5h)).x;
-        tonemap        	(o.low, o.high, sky, scale*2.0 );
-#endif
+
+		o.low		= 	saturation( half4( sky.xyz, 0.f ) ).xyzz;
+		o.high	= 	half4(sky.xyz-ECB_BLOOM_SKYDIV, dot( min(sky.xyz,ECB_BLOOM_SKYDIV), LUMINANCE_VECTOR ) );
+
         return        	o;
 }

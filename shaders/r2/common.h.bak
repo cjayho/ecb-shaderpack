@@ -239,46 +239,19 @@ uniform sampler2D       s_tonemap;              // actually MidleGray / exp(Lw +
 #define def_hdr_clip	half(0.75h)        		//
 
 //////////////////////////////////////////////////////////////////////////////////////////
-#define	LUMINANCE_VECTOR                 float3(0.299f, 0.587f, 0.114f)
-
-
-half4 sat( half4 i, half val )
-{
-	float luminance = dot( float3( i.rgb ), LUMINANCE_VECTOR );
-	return half4( lerp( luminance, float3( i.rgb ), val ), i.w );
-}
-
-half4 saturation( half4 i )
-{
-	float luminance = dot( float3( i.rgb ), LUMINANCE_VECTOR );
-	return sat(i, (float) clamp( luminance * 20.f /*18.26f*/, 0, 1 ) );
-}
-
+#define	LUMINANCE_VECTOR                 half3(0.3f, 0.48f, 0.22f)
 void        tonemap              (out half4 low, out half4 high, half3 rgb, half scale)
 {
-        rgb     =      	rgb*scale*ECB_BRIGHTNESS;
+        rgb     =      	rgb*scale       ;
 
-#ifdef ECB_USE_ECB_BLOOM
-
-	#ifdef 	USE_GAMMA_22
-				low	= 	half4(sqrt(rgb.xyz),	0);
-	#else
-				low 	= 	half4(rgb,	  	0);
-	#endif
-
-	low		= 	saturation( half4( rgb, 0.f ) );
-	high	= 	half4(rgb-ECB_BLOOM_DIV, dot( min(rgb,ECB_BLOOM_DIV), LUMINANCE_VECTOR ) );
-
-#else
-
-		low		=		half4 (rgb,           0 );
-		high	=		half4 (rgb/def_hdr,   0 );		// 8x dynamic range
-
-#endif
-
+		low		= 	half4	(rgb, 0);
+		rgb		/=	def_hdr	;
+		high	= 	half4	(rgb, dot(rgb,0.333f)-def_hdr_clip)		;
 }
 half4		combine_bloom        (half3  low, half4 high)	{
-        return        half4(low + high, 1.h);
+        half4 result = half4(low + high*high.a, 1.h);
+		result.rb = clamp(result.rb, 0, 0.985f); // зеленоватый оттенок у блума, так смотрится естественнее (cjayho)
+		return result;
 }
 
 float3	v_hemi        	(float3 n)                        	{        return L_hemi_color*(.5f + .5f*n.y);                   }
@@ -286,8 +259,8 @@ float3	v_hemi_wrap     (float3 n, float w)                	{        return L_hem
 float3	v_sun           (float3 n)                        	{        return L_sun_color*dot(n,-L_sun_dir_w);                }
 float3	v_sun_wrap      (float3 n, float w)                	{        return L_sun_color*(w+(1-w)*dot(n,-L_sun_dir_w));      }
 half3   p_hemi          (float2 tc)                         {
-        half4        	t_lmh         = tex2D             	(s_hemi, tc);
-        return t_lmh.rgb*t_lmh.a;
+        half3        	t_lmh         = tex2D             	(s_hemi, tc);
+        return  dot     (t_lmh,1.h/3.h);
 //        half4        	t_lmh         = tex2D             	(s_hemi, tc);
 //        return t_lmh.a;
 }
