@@ -31,9 +31,9 @@ float4 	main		( float2 tc : TEXCOORD0, float4 tcJ : TEXCOORD1 ) : COLOR
 	#ifdef 	USE_SJITTER
 	  s 	*= shadowtest_sun 	(PS,tcJ);
 	#else
-	  s 	*= shadow		(PS);
+	  s 	*= sqrt(shadow		(PS));
 	#endif
 
-	return 		sat( blend( Ldynamic_color * light * s, tc ), ECB_SUN_SAT );
+	return 		sat( blend( Ldynamic_color * light * s*.75f, tc ), ECB_SUN_SAT );
 }
 #endif

@@ -17,6 +17,13 @@ struct        _out                {
 };
 
 uniform sampler1D         fog_table        ;
+
+
+#ifdef ECB_SSAO
+	#include "ssao.h"
+#endif // ECB_SSAO
+
+
 _out         main                ( _input I )
 {
   	// Sample the buffers:
@@ -44,8 +51,21 @@ _out         main                ( _input I )
 
 	// hemisphere
 	half3 		hdiffuse,hspecular;
+
 	hmodel		(hdiffuse, hspecular, P.w, N.w, D.w, P.xyz, N.xyz);
 			// hdiffuse *= hdiffuse;	//.
+
+#ifdef ECB_SSAO
+
+	half occ = calc_ssao(P, N, I.tc0);
+
+	#ifdef SSAO_TEX_CONT
+			hdiffuse*=(D.rgb*0.95 + CONT_COEF);	// rise texture contrast for diffuse lighting
+	#endif
+			hdiffuse *= occ;
+			hspecular *= occ; 
+
+#endif // SSAO
 
   	half4 	light 	= half4 	(L.rgb + hdiffuse, L.w);
   	half4 	C	= D*light;				// rgb.gloss * light(diffuse.specular)

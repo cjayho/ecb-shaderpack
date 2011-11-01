@@ -37,7 +37,7 @@ half3 	mblur	(float2 UV, half3 pos, half3 c_original)	{
         	blurred 	+= 	tex2D(s_image, p_velocity * 9.h  + UV).rgb;
 		blurred		+= 	tex2D(s_image, p_velocity * 10.h + UV).rgb;
 		blurred		+= 	tex2D(s_image, p_velocity * 11.h + UV).rgb;
-	return 	blurred/MBLUR_SAMPLES;
+	return 	( dof( UV, (half3) 0 ) + blurred/MBLUR_SAMPLES ) / 2;
 }
 #endif
 

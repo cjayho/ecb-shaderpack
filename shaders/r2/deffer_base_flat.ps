@@ -29,7 +29,7 @@ f_deffer 	main	( p_flat I )
 
   // 2. Standart output
   O.Ne          = half4		(normalize((half3)I.N.xyz), 					h*ECB_S1			);
-  O.position    = half4 	(I.position.xyz + O.Ne.xyz*def_virtualh/2.h, 	ms			);
+  O.position    = half4 	(I.position.xyz + O.Ne.xyz*def_virtualh/2.h, 	ECB_R2A_LMAP_FACTOR*ms			);
   O.C			= half4		( lerp( 0.f, ECB_ANTI_OVERBRIGHT, D.rgb ECB_H ),											def_gloss	);	// OUT: rgb.gloss
 
   return O;

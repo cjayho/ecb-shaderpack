@@ -6,23 +6,22 @@
 //////////////////////////////////////////////////////////////////////////////////////////
 // Lighting formulas			// sun shadows
 half4 	plight_infinity		(half m, half3 point, half3 normal, half3 light_direction)       				{
-  half3 N		= normal;							// normal 
   half3 V 		= -normalize	(point);					// vector2eye
   half3 L 		= -light_direction;						// vector2light
   half3 H		= normalize	(L+V);						// half-angle-vector 
-  return tex3D (s_material, half3( dot(L,N), dot(H,N), m ) ) * 0.75; //*0.61;		// sample material
+  half4 res = tex3D (s_material, half3( dot(L,normal), dot(H,normal), m ) ); //*0.61;		// sample material
+	return half4( sqrt(res.rgb)*.33f, res.w );
 }
 
 
 half4 	plight_local	(half m, half3 point, half3 normal, half3 light_position, half light_range_rsq, out float rsqr)  {
-  half3 N		= normal;							// normal 
   half3 L2P 	= point-light_position;                         		// light2point 
   half3 V 		= -normalize	(point);					// vector2eye
   half3 L 		= -normalize	((half3)L2P);					// vector2light
   half3 H		= normalize	(L+V);						// half-angle-vector
 		rsqr	= dot		(L2P,L2P);					// distance 2 light (squared)
   half  att 	= saturate	(1 - rsqr*light_range_rsq*1.4);			// q-linear attenuate
-  half4 light	= tex3D		(s_material, half3( dot(L,N), dot(H,N), m ) )/**0.4*/; 	// sample material // modified by cjayho: fix dot-lights
+  half4 light	= tex3D		(s_material, half3( dot(L,normal), dot(H,normal), m ) )/**0.4*/; 	// sample material // modified by cjayho: fix dot-lights
   return att*light;
 }
 

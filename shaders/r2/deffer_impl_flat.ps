@@ -79,7 +79,7 @@ f_deffer 	main	( p_flat I 		)
 
   // 2. Standart output
   O.Ne          = half4		(normalize(N), 									h*ECB_S3			);	// hemi
-  O.position    = half4 	(I.position.xyz + O.Ne.xyz*def_virtualh/2.h, 	ms			);	//
+  O.position    = half4 	(I.position.xyz + O.Ne.xyz*def_virtualh/2.h, 	ECB_R2A_LMAP_FACTOR*ms			);	//
 
   O.C			= half4		( lerp( 0.f, ECB_ANTI_OVERBRIGHT, ( D.xyz * 2.1f ) ECB_H ), G	);	// OUT: rgb.gloss
 
