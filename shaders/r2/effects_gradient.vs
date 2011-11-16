@@ -23,7 +23,12 @@ v2p_TL main ( v_TL I )
 	O.HPos = mul(m_VP, I.P);
 	O.HPos.z = O.HPos.w;
 	O.Tex0 = I.Tex0;
-	O.Color = float4( L_sun_color, 1 );
+
+	#ifndef  USE_OGSM_RESTORESUN
+		O.Color = float4( L_sun_color, 1 );
+	#else
+		O.Color = float4( L_sun_color, I.Color.w );
+	#endif
 
  	return O;
 }

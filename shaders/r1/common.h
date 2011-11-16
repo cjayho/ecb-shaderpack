@@ -2,6 +2,8 @@
 #define COMMON_H
 
 #include "shared\common.h"
+#include "config.h"
+
 
 uniform half4		L_dynamic_props;	// per object, xyz=sun,w=hemi
 uniform half4		L_dynamic_color;	// dynamic light color (rgb1)	- spot/point
@@ -111,8 +113,8 @@ uniform sampler2D 	s_detail;
 
 #define def_distort	half(0.05f)	// we get -0.5 .. 0.5 range, this is -512 .. 512 for 1024, so scale it
 
-float3	v_hemi 		(float3 n)		{	return L_hemi_color*(.5f + ( .5f*n.y)); 		}
-float3	v_hemi_wrap	(float3 n, float w)	{	return L_hemi_color*(w + (1-w)*n.y); 		}
+float3	v_hemi 		(float3 n)		{	return L_hemi_color/* *(.5f + .5f*n.y) */; 		}
+float3	v_hemi_wrap	(float3 n, float w)	{	return L_hemi_color/* *(w + (1-w)*n.y) */; 		}
 float3 	v_sun 		(float3 n)		{	return L_sun_color*max(0,dot(n,-L_sun_dir_w));		}
 float3 	v_sun_wrap	(float3 n, float w)	{	return L_sun_color*(w+(1-w)*dot(n,-L_sun_dir_w));	}
 half3	p_hemi		(float2 tc) 	{

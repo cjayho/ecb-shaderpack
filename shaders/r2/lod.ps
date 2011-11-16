@@ -23,7 +23,7 @@ f_deffer 	main	( vf I )
   half4 D 	= lerp		(D0,D1,I.af.w);		D.w	*= I.af.z;	// multiply alpha
   half4 H 	= lerp		(H0,H1,I.af.w);		H.w	*= I.af.x;	// multiply hemi
 
-  clip		(D.w-(128.h/255.h))  ;
+  clip		(D.w-(150.h/255.h))  ;
   half3 N 	= normalize	(H.xyz);
 
   // 2. Standart output

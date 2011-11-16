@@ -10,7 +10,7 @@ struct	v_TL
 struct	v2p_TL
 {
 	float2 	Tex0	: TEXCOORD0;
-//	float4	Color	: COLOR0;
+	float4	Color	: COLOR0;
 	float4 	HPos	: POSITION;	// Clip-space position 	(for rasterization)
 };
 
@@ -23,7 +23,7 @@ v2p_TL main ( v_TL I )
 	O.HPos = mul(m_VP, I.P);
 	O.HPos.z = O.HPos.w;
 	O.Tex0 = I.Tex0;
-	//O.Color = I.Color;
+	O.Color = I.Color;
 
  	return O;
 }

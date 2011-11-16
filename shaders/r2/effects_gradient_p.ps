@@ -4,12 +4,16 @@
 struct	p_TL
 {
 	float2 	Tex0	: TEXCOORD0;
+	float4	Color	: COLOR0;
 };
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // Pixel
 float4 main( p_TL I ) : COLOR
 {
-
-	return saturation( tex2D( s_base, I.Tex0 ) * float4( L_sun_color, 1 ) );
+	#ifndef USE_OGSM_RESTORESUN
+		return saturation( tex2D( s_base, I.Tex0 ) * float4( L_sun_color, 1 ) );
+	#else
+		return saturation( tex2D( s_base, I.Tex0 ) * float4( L_sun_color, I.Color.w ) );
+	#endif
 }
