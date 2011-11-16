@@ -55,6 +55,6 @@
 //#define USE_ECBOPTS // задействовать оптимизации
 uniform sampler 	s_smap;		// 2D/cube shadowmap
 
-#define USE_OGSM_RESTORESUN
+//#define USE_OGSM_RESTORESUN
 
 #endif
