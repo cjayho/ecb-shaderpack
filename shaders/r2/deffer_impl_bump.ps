@@ -28,7 +28,7 @@ f_deffer 	main	( p_bumped I )
 
   O.Ne 		= half4		(Ne, h*ECB_S1);
   O.position= half4 	(I.position.xyz + Ne*S.height*def_virtualh, ECB_R2A_LMAP_FACTOR*ms );
-  O.C		= half4		( lerp( 0.f, ECB_ANTI_OVERBRIGHT, S.base.xyz ECB_H ), S.gloss );		// OUT: rgb.gloss
+  O.C		= sat( half4		( lerp( 0.f, ECB_ANTI_OVERBRIGHT, S.base.xyz ECB_H ), S.gloss ), ECB_TERRAIN_SAT );		// OUT: rgb.gloss
 
   return O;
 }

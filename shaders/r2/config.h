@@ -10,7 +10,7 @@
 #define ECB_FOG_DIST 0.9 // ”множение рассто€ни€ тумана (fog_distance)
 
 // shadows
-#define	ECB_SHADOW_KERNEL	1.f // Ўирина одиночных полосок-переходов в тен€х
+#define	ECB_SHADOW_KERNEL	.9f // Ўирина одиночных полосок-переходов в тен€х
 #define ECB_SHADOW_STEPS 2 // integer; количество полосок перехода тени от светлой к темной. 
 
 #define ECB_H *lerp( 0.5f, 1.f, h * 2 ) //  это формула подгонки уровней €ркости лайтмапов.
@@ -27,7 +27,7 @@
 
 #define ECB_BLOOM_DIV 0.69h // на каком значении картинка становитс€ блумом.
 #define ECB_BLOOM_SKYDIV 0.92h // на каком значении картинка становитс€ блумом (небо)
-#define ECB_BLOOM_BRIGHTNESS 0.33f // €ркость блума
+#define ECB_BLOOM_BRIGHTNESS 0.5f // €ркость блума
 #define ECB_SPECULAR 0.61f // €ркость бликов
 #define ECB_DIFFUSE_AMBIENT_SAT 1.0f // цветность диффузного амбиента
 //#define ECB_SHADOW_LENGTH 3.0f // удлинение теней в n раз (экспериментальна€ фича)
@@ -36,10 +36,11 @@
 #define ECB_BRIGHTNESS 2.5f // €ркость картинки в целом 1.6
 #define ECB_SUN_FAR 1.0f // дл€ компенсации разницы между внешним кольцом солнечного света и внутренним. ”множаетс€ €ркость внешнего кольца
 #define ECB_R2A_LMAP_FACTOR .2f+.8f
+
 //#define USE_MBLUR
 
 // DoF
-#define USE_DOF
+//#define USE_DOF
 #define NEAR 		0.2h
 #define MINDIST 	0.4h
 #define MAXDIST 	600.h
@@ -52,9 +53,22 @@
 #define FADE_DIST 4.f
 #define FADE_COEF .2f
 
+#define USE_ECB_LTRAILS //  омпенсационный световой след
+#define ECB_LTRAIL_VELOCITY 20.f
+#define ECB_LTRAIL_FACTOR 1.0f
+
 //#define USE_ECBOPTS // задействовать оптимизации
 uniform sampler 	s_smap;		// 2D/cube shadowmap
 
-//#define USE_OGSM_RESTORESUN
+#define USE_OGSM_RESTORESUN
+
+#define ECB_TERRAIN_SAT 0.8f
+
+//#define USE_LCOMPRESS # блум ал€ 2218
+
+#define ECB_LL_DIST 1.4f
+#define ECB_LL_BRIGHTNESS 2.0f
+
+#define ECB_AUTOSAT_FACTOR 18.75f
 
 #endif

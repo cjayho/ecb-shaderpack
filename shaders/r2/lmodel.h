@@ -20,8 +20,8 @@ half4 	plight_local	(half m, half3 point, half3 normal, half3 light_position, ha
   half3 L 		= -normalize	((half3)L2P);					// vector2light
   half3 H		= normalize	(L+V);						// half-angle-vector
 		rsqr	= dot		(L2P,L2P);					// distance 2 light (squared)
-  half  att 	= saturate	(1 - rsqr*light_range_rsq*1.4);			// q-linear attenuate
-  half4 light	= tex3D		(s_material, half3( dot(L,normal), dot(H,normal), m ) )/**0.4*/; 	// sample material // modified by cjayho: fix dot-lights
+  half  att 	= saturate	(1 - rsqr*light_range_rsq*ECB_LL_DIST)*ECB_LL_BRIGHTNESS;			// q-linear attenuate
+  half4 light	= tex3D		(s_material, half3( dot(L,normal), dot(H,normal), m ) ); 	// sample material // modified by cjayho: fix dot-lights
   return att*light;
 }
 

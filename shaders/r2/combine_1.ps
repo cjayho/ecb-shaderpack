@@ -23,7 +23,6 @@ uniform sampler1D         fog_table        ;
 	#include "ssao.h"
 #endif // ECB_SSAO
 
-
 _out         main                ( _input I )
 {
   	// Sample the buffers:
@@ -102,6 +101,7 @@ _out         main                ( _input I )
 #endif
 	_out	o;
 	tonemap	(o.low,o.high, color, tm_scale );
+
 	o.high.a = (half) saturate (fog*fog);
   	return 	o;
 }

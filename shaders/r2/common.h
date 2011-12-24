@@ -251,7 +251,7 @@ half4 sat( half4 i, half val )
 half4 saturation( half4 i )
 {
 	float luminance = dot( float3( i.rgb ), LUMINANCE_VECTOR );
-	return sat(i, (float) clamp( luminance * 20.f /*18.26f*/, 0, 1 ) );
+	return sat(i, (float) clamp( luminance * ECB_AUTOSAT_FACTOR, 0, 1 ) );
 }
 
 void        tonemap              (out half4 low, out half4 high, half3 rgb, half scale)
@@ -261,12 +261,19 @@ void        tonemap              (out half4 low, out half4 high, half3 rgb, half
 #ifdef ECB_USE_ECB_BLOOM
 
 	#ifdef 	USE_GAMMA_22
-				low	= 	half4(sqrt(rgb.xyz),	0);
+		#ifdef USE_LCOMPRESS
+			low		= 	sqrt( saturation( half4( rgb/(1+rgb), 0.f ) ) );
+		#else
+			low		= 	sqrt( saturation( half4( rgb, 0.f ) ) );
+		#endif
 	#else
-				low 	= 	half4(rgb,	  	0);
+		#ifdef USE_LCOMPRESS
+			low		= 	saturation( half4( rgb/(1+rgb), 0.f ) );
+		#else
+			low		= 	saturation( half4( rgb, 0.f ) );
+		#endif
 	#endif
 
-	low		= 	saturation( half4( rgb, 0.f ) );
 	high	= 	half4(rgb-ECB_BLOOM_DIV, dot( min(rgb,ECB_BLOOM_DIV), LUMINANCE_VECTOR ) );
 
 #else
