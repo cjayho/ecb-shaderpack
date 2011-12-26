@@ -256,10 +256,7 @@ half4 saturation( half4 i )
 
 void        tonemap              (out half4 low, out half4 high, half3 rgb, half scale)
 {
-        rgb     =      	rgb*scale*ECB_BRIGHTNESS;
-
-#ifdef ECB_USE_ECB_BLOOM
-
+	rgb =	rgb*scale*ECB_BRIGHTNESS;
 	#ifdef 	USE_GAMMA_22
 		#ifdef USE_LCOMPRESS
 			low		= 	sqrt( saturation( half4( rgb/(1+rgb), 0.f ) ) );
@@ -275,15 +272,8 @@ void        tonemap              (out half4 low, out half4 high, half3 rgb, half
 	#endif
 
 	high	= 	half4(rgb-ECB_BLOOM_DIV, dot( min(rgb,ECB_BLOOM_DIV), LUMINANCE_VECTOR ) );
-
-#else
-
-		low		=		half4 (rgb,           0 );
-		high	=		half4 (rgb/def_hdr,   0 );		// 8x dynamic range
-
-#endif
-
 }
+
 half4		combine_bloom        (half3  low, half4 high)	{
         return        half4(low + high, 1.h);
 }

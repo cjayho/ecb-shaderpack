@@ -6,7 +6,7 @@
 // того, что мои переменные и переменные оригинальных шейдеров пересекутс€ на одном имени.
 
 // бќльшие значени€ дают бќльшие значени€ соответствующего параметра конфига погоды в скобках
-#define ECB_FOG_COLOR 0.35 // ”множение €ркости тумана (fog_color)
+#define ECB_FOG_COLOR 0.25 // ”множение €ркости тумана (fog_color)
 #define ECB_FOG_DIST 0.9 // ”множение рассто€ни€ тумана (fog_distance)
 
 // shadows
@@ -26,12 +26,11 @@
 #define ECB_EMISSIVE_MUL 1.5f // €ркость свет€щихс€ поверхностей: чем больше тем блум желтее а потом зеленее и тд.
 
 #define ECB_BLOOM_DIV 0.69h // на каком значении картинка становитс€ блумом.
-#define ECB_BLOOM_SKYDIV 0.92h // на каком значении картинка становитс€ блумом (небо)
-#define ECB_BLOOM_BRIGHTNESS 0.5f // €ркость блума
+#define ECB_BLOOM_SKYDIV 0.95h // на каком значении картинка становитс€ блумом (небо)
+#define ECB_BLOOM_BRIGHTNESS 0.33f // €ркость блума
 #define ECB_SPECULAR 0.61f // €ркость бликов
 #define ECB_DIFFUSE_AMBIENT_SAT 1.0f // цветность диффузного амбиента
 //#define ECB_SHADOW_LENGTH 3.0f // удлинение теней в n раз (экспериментальна€ фича)
-#define ECB_USE_ECB_BLOOM // »спользовать "тот самый" блум
 #define ECB_ANTI_OVERBRIGHT 0.85h // ѕеременна€, до которой максимум возрастает цвет текстуры. ƒл€ того чтобы текстура не отсекалась сверху при наложении освещени€.
 #define ECB_BRIGHTNESS 2.5f // €ркость картинки в целом 1.6
 #define ECB_SUN_FAR 1.0f // дл€ компенсации разницы между внешним кольцом солнечного света и внутренним. ”множаетс€ €ркость внешнего кольца
@@ -40,7 +39,7 @@
 //#define USE_MBLUR
 
 // DoF
-//#define USE_DOF
+#define USE_DOF
 #define NEAR 		0.2h
 #define MINDIST 	0.4h
 #define MAXDIST 	600.h
@@ -48,16 +47,19 @@
 #define MAXCOF_NEAR	100.h
 #define EPSDEPTH	0.0001h
 
-//#define ECB_SSAO
+#define ECB_SSAO
 #define SSAO_QUALITY 2 	//2 - low quality; 3 - high quality
 #define FADE_DIST 4.f
 #define FADE_COEF .2f
 
 #define USE_ECB_LTRAILS //  омпенсационный световой след
-#define ECB_LTRAIL_VELOCITY 20.f
-#define ECB_LTRAIL_FACTOR 1.0f
+#define ECB_LTRAIL_VELOCITY 12.5f // ƒлина хвоста в зависимости от скорости
+#define ECB_LTRAIL_FACTOR 1.75f // €ркость хвоста
+#define USE_TCLAMP // ограничивать длину хвоста
+#define TRAIL_CLAMP	half(0.0175) // значение ограничени€ длины
+#define LTRAIL_THRESHOLD 100.f // чем бќльшее значение, тем меньшую скорость движени€ нужно делать дл€ по€влени€ хвоста
+// #define USE_LTRAIL_THRESHOLD // убирать хвосты при отсутствии движени€
 
-//#define USE_ECBOPTS // задействовать оптимизации
 uniform sampler 	s_smap;		// 2D/cube shadowmap
 
 #define USE_OGSM_RESTORESUN
@@ -66,9 +68,9 @@ uniform sampler 	s_smap;		// 2D/cube shadowmap
 
 //#define USE_LCOMPRESS # блум ал€ 2218
 
-#define ECB_LL_DIST 1.4f
+#define ECB_LL_DIST 1.2f
 #define ECB_LL_BRIGHTNESS 2.0f
 
-#define ECB_AUTOSAT_FACTOR 18.75f
+#define ECB_AUTOSAT_FACTOR 21.25f
 
 #endif
