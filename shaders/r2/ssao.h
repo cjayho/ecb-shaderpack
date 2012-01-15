@@ -1,17 +1,11 @@
 static const half2 poisson_disc12[6] = 
 {
 	half2(-0.326212f , -0.405810f),
-//	half2(-0.840144f , -0.073580f),
 	half2(-0.695914f ,  0.457137f),
-//	half2(-0.203345f ,  0.620716f),
 	half2( 0.962340f , -0.194983f),
-//	half2( 0.473434f , -0.480026f),
 	half2( 0.519456f ,  0.767022f),
-//	half2( 0.185461f , -0.893124f),
 	half2( 0.507431f ,  0.064425f),
-//	half2( 0.896420f ,  0.412458f),
 	half2(-0.321940f , -0.932615f),
-//	half2(-0.791559f , -0.597710f)
 };
 
 
@@ -36,8 +30,7 @@ for (int a=1; a<3; ++a)
 	{
 		half3 	dir 	= tex2D	(s_position,tc + poisson_disc12[i]*scale_tmp)-P.xyz;
 		half 	occ_factor = saturate(length(dir));
-			dir 	= normalize(dir);
-		half 	infl 	= saturate(dot( dir, N.xyz));
+		half 	infl 	= saturate( dot( normalize( dir ), N.xyz ) );
 
 
 		{

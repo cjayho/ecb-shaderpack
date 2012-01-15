@@ -19,7 +19,7 @@ vf main (v_static v)
 	float3  dir_v 	= normalize		(mul(m_WV,v.P));
 	float3 	norm_v 	= normalize 		(mul(m_WV,unpack_normal(v.Nh)));
 	float 	fade 	= abs			(dot(dir_v,norm_v));
-	o.c0		= float4(fade,fade,fade,1);
+	o.c0		= float4((float3)fade,1);
 
 	return o;
 }

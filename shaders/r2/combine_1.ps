@@ -37,7 +37,7 @@ _out         main                ( _input I )
 #endif
 
 #ifdef 	USE_GAMMA_22
-	D.rgb		= (D.rgb*D.rgb);	// pow(2.2)
+	D.rgb		*= D.rgb;	// pow(2.2)
 #endif
 
         // static sun

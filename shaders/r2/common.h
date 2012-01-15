@@ -29,7 +29,7 @@
 //#define DBG_TMAPPING
 //////////////////////////////////////////////////////////////////////////////////////////
 #ifndef SMAP_size
-#define SMAP_size        2048
+#define SMAP_size        4096
 #endif
 #define PARALLAX_H 0.02
 #define parallax float2(PARALLAX_H, -PARALLAX_H/2)
@@ -44,6 +44,7 @@ uniform half4                L_material;                            // 0,0,0,mid
 uniform half4                Ldynamic_color;                      // dynamic light color (rgb1)        - spot/point
 uniform half4                Ldynamic_pos;                       // dynamic light pos+1/range(w) - spot/point
 uniform half4                Ldynamic_dir;                        // dynamic light direction         - sun
+uniform sampler 	s_smap;		// 2D/cube shadowmap
 
 uniform half4                J_direct        [6];
 uniform half4                J_spot                [6];
@@ -251,7 +252,7 @@ half4 sat( half4 i, half val )
 half4 saturation( half4 i )
 {
 	float luminance = dot( float3( i.rgb ), LUMINANCE_VECTOR );
-	return sat(i, (float) clamp( luminance * ECB_AUTOSAT_FACTOR, 0, 1 ) );
+	return sat(i, (float) saturate( luminance * ECB_AUTOSAT_FACTOR ) );
 }
 
 void        tonemap              (out half4 low, out half4 high, half3 rgb, half scale)

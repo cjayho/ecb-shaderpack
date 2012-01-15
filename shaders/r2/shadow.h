@@ -78,38 +78,39 @@ version 1.1 by cj ayho (ecb team) 13.04.2011 - оптимизация
 	for( int i = 0; i < n; i++ )
 	{
 
-		int ii = i + 1;
-		int iii = i + 2;
+		float3 a1 = float3( 0, +i, -i );
+		float3 a2 = float3( 0, +i + 1, -i - 1 );
+		float3 a3 = float3( 0, +i + 2, -i - 2 );
 
-					s0.x += sample_hw_pcf ( tc, float4( -i, -i, 0, 0 ) );
-					s0.y += sample_hw_pcf ( tc, float4( +i, -i, 0, 0 ) );
-					s0.z += sample_hw_pcf ( tc, float4( -i, +i, 0, 0 ) );
-					s0.w += sample_hw_pcf ( tc, float4( +i, +i, 0, 0 ) );
+		s0.x += sample_hw_pcf ( tc, a1.zzxx );
+		s0.y += sample_hw_pcf ( tc, a1.yzxx );
+		s0.z += sample_hw_pcf ( tc, a1.zyxx );
+		s0.w += sample_hw_pcf ( tc, a1.yyxx );
 
-					s0.x += sample_hw_pcf ( tc, float4( 0, +i, 0, 0 ) );
-					s0.y += sample_hw_pcf ( tc, float4( 0, -i, 0, 0 ) );
-					s0.z += sample_hw_pcf ( tc, float4( +i, 0, 0, 0 ) );
-					s0.w += sample_hw_pcf ( tc, float4( -i, 0, 0, 0 ) );
+		s0.x += sample_hw_pcf ( tc, a1.xyxx );
+		s0.y += sample_hw_pcf ( tc, a1.xzxx );
+		s0.z += sample_hw_pcf ( tc, a1.yxxx );
+		s0.w += sample_hw_pcf ( tc, a1.zxxx );
 
-					s0.x += sample_hw_pcf ( tc, float4( -ii, -ii, 0, 0 ) );
-					s0.y += sample_hw_pcf ( tc, float4( +ii, -ii, 0, 0 ) );
-					s0.z += sample_hw_pcf ( tc, float4( -ii, +ii, 0, 0 ) );
-					s0.w += sample_hw_pcf ( tc, float4( +ii, +ii, 0, 0 ) );
+		s0.x += sample_hw_pcf ( tc, a2.zzxx );
+		s0.y += sample_hw_pcf ( tc, a2.yzxx );
+		s0.z += sample_hw_pcf ( tc, a2.zyxx );
+		s0.w += sample_hw_pcf ( tc, a2.yyxx );
 
-					s0.x += sample_hw_pcf ( tc, float4( 0, +ii, 0, 0 ) );
-					s0.y += sample_hw_pcf ( tc, float4( 0, -ii, 0, 0 ) );
-					s0.z += sample_hw_pcf ( tc, float4( +ii, 0, 0, 0 ) );
-					s0.w += sample_hw_pcf ( tc, float4( -ii, 0, 0, 0 ) );
+		s0.x += sample_hw_pcf ( tc, a2.xyxx );
+		s0.y += sample_hw_pcf ( tc, a2.xzxx );
+		s0.z += sample_hw_pcf ( tc, a2.yxxx );
+		s0.w += sample_hw_pcf ( tc, a2.zxxx );
 
-					s0.x += sample_hw_pcf ( tc, float4( -iii, -iii, 0, 0 ) );
-					s0.y += sample_hw_pcf ( tc, float4( +iii, -iii, 0, 0 ) );
-					s0.z += sample_hw_pcf ( tc, float4( -iii, +iii, 0, 0 ) );
-					s0.w += sample_hw_pcf ( tc, float4( +iii, +iii, 0, 0 ) );
+		s0.x += sample_hw_pcf ( tc, a3.zzxx );
+		s0.y += sample_hw_pcf ( tc, a3.yzxx );
+		s0.z += sample_hw_pcf ( tc, a3.zyxx );
+		s0.w += sample_hw_pcf ( tc, a3.yyxx );
 
-					s0.x += sample_hw_pcf ( tc, float4( 0, +iii, 0, 0 ) );
-					s0.y += sample_hw_pcf ( tc, float4( 0, -iii, 0, 0 ) );
-					s0.z += sample_hw_pcf ( tc, float4( +iii, 0, 0, 0 ) );
-					s0.w += sample_hw_pcf ( tc, float4( -iii, 0, 0, 0 ) );
+		s0.x += sample_hw_pcf ( tc, a3.xyxx );
+		s0.y += sample_hw_pcf ( tc, a3.xzxx );
+		s0.z += sample_hw_pcf ( tc, a3.yxxx );
+		s0.w += sample_hw_pcf ( tc, a3.zxxx );
 
 	}
 

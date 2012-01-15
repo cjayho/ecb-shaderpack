@@ -52,7 +52,7 @@ f_deffer 	main	( p_flat I 		)
 	half g_A=n_At.w*mask.a;
 
 	 half3	mix		= 	n_R+n_G+n_B+n_A;
-			mix.z	*=	0.5;		//. make bump twice as contrast (fake, remove me if possible)
+			//mix.z	*=	0.5;		//. make bump twice as contrast (fake, remove me if possible)
 	 half3	N		= 	mul     	(half3x3(I.M1, I.M2, I.M3), mix.xyz);
 
 	 	 	G 		= 	g_R+g_G+g_B*g_A;

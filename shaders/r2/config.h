@@ -27,7 +27,7 @@
 
 #define ECB_BLOOM_DIV 0.69h // на каком значении картинка становится блумом.
 #define ECB_BLOOM_SKYDIV 0.95h // на каком значении картинка становится блумом (небо)
-#define ECB_BLOOM_BRIGHTNESS 0.33f // яркость блума
+#define ECB_BLOOM_BRIGHTNESS 0.5f // яркость блума
 #define ECB_SPECULAR 0.61f // яркость бликов
 #define ECB_DIFFUSE_AMBIENT_SAT 1.0f // цветность диффузного амбиента
 //#define ECB_SHADOW_LENGTH 3.0f // удлинение теней в n раз (экспериментальная фича)
@@ -40,37 +40,46 @@
 
 // DoF
 #define USE_DOF
-#define NEAR 		0.2h
-#define MINDIST 	0.4h
-#define MAXDIST 	600.h
-#define MAXCOF		5.h
-#define MAXCOF_NEAR	100.h
-#define EPSDEPTH	0.0001h
 
-#define ECB_SSAO
+#define MINDIST 	0.5f
+#define MAXDIST 	600.f
+#define MAXCOF		1.f
+#define MAXCOF_NEAR	15.f
+#define MAXNEAR float(0.7)					// Distance at which Near Field DOF starts. Default is 0.7. Larger values will blur your weapon more, and not only its near part.
+#define MINNEAR float(0.0)					// Distance at which Near Field DOF stops. Default is 0.0
+
+// DDoF
+#define ECB_USE_DDOF
+
+#define DDOF_MINDIST_ADD float(0.5)			// Added to view distance, at this distance begins blurring
+#define DDOF_MAXDIST_FACTOR float(1.0)		// Mindist times factor = maxdist
+#define DDOF_MINDIST float(0.0)				// Minimum distance DDOF starts.
+#define DDOF_MAXDIST float(10.0)			// Distance at which DOF stops rendering. Beyond this view distance, only minor DDOF
+
+//#define ECB_SSAO
 #define SSAO_QUALITY 2 	//2 - low quality; 3 - high quality
 #define FADE_DIST 4.f
 #define FADE_COEF .2f
 
 #define USE_ECB_LTRAILS // Компенсационный световой след
 #define ECB_LTRAIL_VELOCITY 12.5f // Длина хвоста в зависимости от скорости
-#define ECB_LTRAIL_FACTOR 1.75f // яркость хвоста
+#define ECB_LTRAIL_FACTOR 1.5f // яркость хвоста
 #define USE_TCLAMP // ограничивать длину хвоста
 #define TRAIL_CLAMP	half(0.0175) // значение ограничения длины
+#define USE_LTRAIL_THRESHOLD // убирать хвосты при отсутствии движения
 #define LTRAIL_THRESHOLD 100.f // чем бОльшее значение, тем меньшую скорость движения нужно делать для появления хвоста
-// #define USE_LTRAIL_THRESHOLD // убирать хвосты при отсутствии движения
 
-uniform sampler 	s_smap;		// 2D/cube shadowmap
-
-#define USE_OGSM_RESTORESUN
+//#define USE_SHADER_RESTORESUN
 
 #define ECB_TERRAIN_SAT 0.8f
 
 //#define USE_LCOMPRESS # блум аля 2218
 
 #define ECB_LL_DIST 1.2f
-#define ECB_LL_BRIGHTNESS 2.0f
+#define ECB_LL_BRIGHTNESS 1.0f
 
 #define ECB_AUTOSAT_FACTOR 21.25f
+
+#define ECB_PARTICLE_FACTOR *.75f
 
 #endif
