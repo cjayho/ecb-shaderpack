@@ -43,6 +43,9 @@ surface_bumped                sload_i         ( p_bumped I)        // + texld, m
         half4       detail  =		tex2D(s_detail,I.tcdbump)        	;
         S.base.rgb          =		S.base.rgb     * detail.rgb*2		;
         S.gloss             =  		S.gloss * detail.w * 2				;
+		#ifdef ECB_MBUMP
+			S.normal.z += dot(detail.rgb-(half3).5f,.25f);
+		#endif
 #endif
 
         return                S;
@@ -62,6 +65,9 @@ surface_bumped                sload_i         ( p_bumped I)
         half4 detail		=        tex2D(s_detail,I.tcdbump)    ;
         S.base.rgb          =      	S.base.rgb*detail.rgb        	*2      ;
         S.gloss             =  		S.gloss * detail.w * 2			;
+		#ifdef ECB_MBUMP
+			S.normal.z += dot(detail.rgb-(half3).5f,.25f);
+		#endif
 #endif
         return              S;
 }

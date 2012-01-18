@@ -1,0 +1,37 @@
+#include "common.h"
+
+struct 	v2p
+{
+	half4 	factor:	COLOR0;
+  	half3	tc0:	TEXCOORD0;
+  	half3	tc1:	TEXCOORD1;
+};
+struct	_out
+{
+	half4	low	: COLOR0;
+	half4	high	: COLOR1;
+};
+
+
+uniform samplerCUBE 	s_sky0	: register(s0);
+uniform samplerCUBE 	s_sky1	: register(s1);
+uniform half3 		color;
+
+//////////////////////////////////////////////////////////////////////////////////////////
+// Pixel
+_out 	main		( v2p I )
+{
+	half3 	s0	= texCUBE(s_sky0,I.tc0);
+	half3 	s1	= texCUBE(s_sky1,I.tc1);
+#ifdef 	USE_GAMMA_22
+	s0 		= s0*s0;
+	s1		= s1*s1;
+#endif
+	half3	sky	= I.factor*lerp(s0,s1,I.factor.w)*2.h;
+
+	// final tone-mapping
+	_out	o;
+	half 	scale 	= tex2D(s_tonemap,half2(.5h,.5h)).x;
+	tonemap	(o.low,o.high,sky, scale*.5h +.5h);	
+  	return 	o;
+}

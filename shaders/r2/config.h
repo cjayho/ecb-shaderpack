@@ -45,7 +45,7 @@
 #define MAXDIST 	600.f
 #define MAXCOF		1.f
 #define MAXCOF_NEAR	15.f
-#define MAXNEAR float(0.7)					// Distance at which Near Field DOF starts. Default is 0.7. Larger values will blur your weapon more, and not only its near part.
+#define MAXNEAR float(0.5)					// Distance at which Near Field DOF starts. Default is 0.7. Larger values will blur your weapon more, and not only its near part.
 #define MINNEAR float(0.0)					// Distance at which Near Field DOF stops. Default is 0.0
 
 // DDoF
@@ -81,5 +81,7 @@
 #define ECB_AUTOSAT_FACTOR 21.25f
 
 #define ECB_PARTICLE_FACTOR *.75f
+
+#define ECB_MBUMP
 
 #endif
