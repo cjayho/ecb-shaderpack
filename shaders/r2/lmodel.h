@@ -10,7 +10,7 @@ half4 	plight_infinity		(half m, half3 point, half3 normal, half3 light_directio
   half3 L 		= -light_direction;						// vector2light
   half3 H		= normalize	(L+V);						// half-angle-vector 
   half4 res = tex3D (s_material, half3( dot(L,normal), dot(H,normal), m ) ); //*0.61;		// sample material
-	return half4( sqrt(res.rgb)*.33f, res.w );
+	return res/2; //half4( sqrt(res.rgb)*.33f, res.w );
 }
 
 

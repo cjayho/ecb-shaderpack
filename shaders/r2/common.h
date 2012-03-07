@@ -44,8 +44,7 @@ uniform half4                L_material;                            // 0,0,0,mid
 uniform half4                Ldynamic_color;                      // dynamic light color (rgb1)        - spot/point
 uniform half4                Ldynamic_pos;                       // dynamic light pos+1/range(w) - spot/point
 uniform half4                Ldynamic_dir;                        // dynamic light direction         - sun
-uniform sampler 	s_smap;		// 2D/cube shadowmap
-
+uniform sampler 		s_smap;		// 2D/cube shadowmap
 uniform half4                J_direct        [6];
 uniform half4                J_spot                [6];
 
@@ -259,13 +258,13 @@ void        tonemap              (out half4 low, out half4 high, half3 rgb, half
 {
 	rgb =	rgb*scale*ECB_BRIGHTNESS;
 	#ifdef 	USE_GAMMA_22
-		#ifdef USE_LCOMPRESS
+		#ifdef ECB_LCOMPRESS
 			low		= 	sqrt( saturation( half4( rgb/(1+rgb), 0.f ) ) );
 		#else
 			low		= 	sqrt( saturation( half4( rgb, 0.f ) ) );
 		#endif
 	#else
-		#ifdef USE_LCOMPRESS
+		#ifdef ECB_LCOMPRESS
 			low		= 	saturation( half4( rgb/(1+rgb), 0.f ) );
 		#else
 			low		= 	saturation( half4( rgb, 0.f ) );

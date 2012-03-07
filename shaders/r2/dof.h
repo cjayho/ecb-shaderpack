@@ -1,14 +1,14 @@
 #ifndef	DOF_H_INCLUDED
 #define	DOF_H_INCLUDED
 
-#ifndef	USE_DOF
+#ifndef	ECB_DOF
 
 half3	dof(float2 center, half3 sum)
 {
 	return	sum;
 }
 
-#else	//	USE_DOF
+#else	//	ECB_DOF
 
 #ifndef ecb_rd
 	uniform half4 e_barrier;
@@ -22,19 +22,19 @@ half3	dof(float2 center, half3 sum)
 	float dep = tex2D( s_position, center ).z;
 	float targetDist = tex2D( s_position, float2( 0.500001f, 0.500001f ) ).z;
 
-	float mycof = MAXCOF;
-	float myMINDIST = MINDIST;
-	float myMAXDIST = MAXDIST;
-	float myMAXNEAR = MAXNEAR;
-	float myMINNEAR = MINNEAR;
+	float mycof = ECB_DOF_MAXCOF;
+	float myMINDIST = ECB_DOF_MINDIST;
+	float myMAXDIST = ECB_DOF_MAXDIST;
+	float myMAXNEAR = ECB_DOF_MAXNEAR;
+	float myMINNEAR = ECB_DOF_MINNEAR;
 
-	#ifdef ECB_USE_DDOF
+	#ifdef ECB_DDOF
 
-		if (targetDist < MAXDIST && targetDist > DDOF_MINDIST)
+		if (targetDist < ECB_DOF_MAXDIST && targetDist > ECB_DDOF_MINDIST)
 		{
-			myMINDIST = targetDist + DDOF_MINDIST_ADD;
-			float maxFactor = (targetDist < DDOF_MAXDIST) ? 1 : (targetDist / DDOF_MAXDIST);
-			myMAXDIST = myMINDIST * DDOF_MAXDIST_FACTOR * maxFactor;
+			myMINDIST = targetDist + ECB_DDOF_MINDIST_ADD;
+			float maxFactor = (targetDist < ECB_DDOF_MAXDIST) ? 1 : (targetDist / ECB_DDOF_MAXDIST);
+			myMAXDIST = myMINDIST * ECB_DDOF_MAXDIST_FACTOR * maxFactor * 4;
 		}
 
 	#endif
@@ -47,10 +47,10 @@ half3	dof(float2 center, half3 sum)
 	if (dep < myMAXNEAR && dep > myMINNEAR) // && targetDist > myMAXNEAR)
 	{
 		dep = ( 1 - ( dep - myMINNEAR ) / ( myMAXNEAR - myMINNEAR ) ) * myMAXDIST;
-		mycof = MAXCOF_NEAR;
+		mycof = ECB_DOF_MAXCOF_NEAR;
 	}
 
-	half 	blur		= saturate( ( dep - myMINDIST ) / ( myMAXDIST - myMINDIST ) );
+	half 	blur		= pow( saturate( ( dep - myMINDIST ) / ( myMAXDIST - myMINDIST ) ), 1 );
 
 	half2 	scale 	= half2	( .5f / 1024.h, .5f / 768.h ) * mycof * blur;
 
@@ -66,7 +66,7 @@ half3	dof(float2 center, half3 sum)
 	};
 
 	// sample 
-	for ( int i = 0; i < 6; i++ )
+	for ( int i=0; i<6; i++ )
 	{
 		sum 		+= tex2D	( s_image, (float2) ( center + o[i] ) );
 	}
@@ -75,6 +75,6 @@ half3	dof(float2 center, half3 sum)
 
 }
 
-#endif	//	USE_DOF
+#endif	//	ECB_DOF
 
 #endif	//	DOF_H_INCLUDED
