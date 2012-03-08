@@ -31,7 +31,7 @@
     #define ECB_DDOF_MINDIST float(0.0)             // минимальное расстояние применения эффекта
     #define ECB_DDOF_MAXDIST float(10.0)            // максимальное расстояние применения эффекта
 
-//#define ECB_SSAO                                  // Screen Space Ambient Occlusion
+#define ECB_SSAO                                  // Screen Space Ambient Occlusion
     #define ECB_SSAO_QUALITY 2                      // 2 - low, 3 - high, 4 - slow as hell
     #define ECB_SSAO_FADE_DIST 12.f                 // размер области затемнения у углов
     #define ECB_SSAO_FADE_COEF .15f                 // сила затемнения

@@ -26,7 +26,7 @@
 
 			#ifdef USE_MBLUR
 
-			  half4 blurred 	= 	tex2D(s_image, p_velocity + UV);
+			  half4 blurred 	= 	(half4) 0; //tex2D(s_image, p_velocity + UV);
 					blurred		+= 	tex2D(s_image, p_velocity * 2.h  + UV);
 					blurred		+= 	tex2D(s_image, p_velocity * 3.h  + UV);
 					blurred		+= 	tex2D(s_image, p_velocity * 4.h  + UV);
@@ -38,7 +38,7 @@
 					blurred		+= 	tex2D(s_image, p_velocity * 10.h + UV);
 					blurred		+= 	tex2D(s_image, p_velocity * 11.h + UV);
 
-				blurred /= 11;
+				blurred /= 10;
 
 			#endif
 
