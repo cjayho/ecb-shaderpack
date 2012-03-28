@@ -7,7 +7,7 @@
 #define CONFIG_H
 
 // Motion Blur and Bump
-#define USE_MBLUR                                   // размытие картинки при движении
+//#define USE_MBLUR                                   // размытие картинки при движении
 #define ECB_MBUMP                                   // микроструктурный бамп
 
 // Bloom
@@ -15,7 +15,7 @@
 #define ECB_BLOOM_SKYDIV 0.95h                      // на каком значении картинка становится блумом (небо)
 #define ECB_BLOOM_BRIGHTNESS 0.5f                   // яркость блума
 #define ECB_SPECULAR 0.61f                          // яркость бликов
-//#define ECB_LCOMPRESS                             // bloom 2218
+//#define ECB_LCOMPRESS                               // bloom 2218
 
 #define ECB_DOF                                     // Depth of Field
     #define ECB_DOF_MINDIST 0.5f                    // минимальное расстояние для эффекта
@@ -30,15 +30,18 @@
     #define ECB_DDOF_MAXDIST_FACTOR float(4.0)      // домножение величины размытия удаленных объектов при взгляде на близкий
     #define ECB_DDOF_MINDIST float(0.0)             // минимальное расстояние применения эффекта
     #define ECB_DDOF_MAXDIST float(10.0)            // максимальное расстояние применения эффекта
+    #define ECB_DDOF_AIM                            // использовать размывку при прицеливании
+    #define ECB_DDOF_AIM_BLUR 7.5f                  // размытие в режиме прицеливания
+    #define ECB_DDOF_AIM_CIRCLE 1.75f               // размер неразмытого круга в центре экрана
 
-#define ECB_SSAO                                  // Screen Space Ambient Occlusion
+//#define ECB_SSAO                                  // Screen Space Ambient Occlusion
     #define ECB_SSAO_QUALITY 2                      // 2 - low, 3 - high, 4 - slow as hell
     #define ECB_SSAO_FADE_DIST 12.f                 // размер области затемнения у углов
     #define ECB_SSAO_FADE_COEF .15f                 // сила затемнения
 
 #define ECB_LTRAILS                                 // Condensation Light Trail
     #define ECB_LTRAIL_VELOCITY 12.5f               // длина хвоста в зависимости от скорости
-    #define ECB_LTRAIL_FACTOR 1.5f                  // яркость хвоста
+    #define ECB_LTRAIL_FACTOR 1.f                   // яркость хвоста
     #define ECB_LTRAIL_CLAMP                        // ограничивать длину хвоста
     #define ECB_LTRAIL_CLAMP_VALUE half(0.0175)     // значение ограничения длины
     #define ECB_LTRAIL_USE_THRESHOLD                // убирать хвосты при отсутствии движения
@@ -47,22 +50,23 @@
 // Fog
 #define ECB_FOG_COLOR 0.25                          // умножение яркости тумана (fog_color)
 #define ECB_FOG_DIST 0.9                            // умножение расстояния тумана (fog_distance)
+#define ECB_OPAQUE_FOG                              // непрозрачный туман
 
 // Sun
-//#define ECB_SHADER_RESTORE_SUN                    // использовать шейдерное солнце
+//#define ECB_SHADER_RESTORE_SUN                      // использовать шейдерное солнце
 #define ECB_SUN_SAT 0.9h                            // насыщенность солнца
 
 // Shadow
 #define ECB_SHADOW_KERNEL .9f                       // ширина одиночных полосок-переходов в тенях
 #define ECB_SHADOW_STEPS 2                          // количество полосок перехода тени от светлой к темной (integer)
-//#define ECB_SHADOW_LENGTH 3.0f                    // длина теней
+//#define ECB_SHADOW_LENGTH 3.0f                      // длина теней
 
 // Lightmaps
 #define ECB_R2A_LMAP_FACTOR .2f + .8f               // яркость лайтмапов на R2a
 #define ECB_SB 0.66f                                // яркость теней
-#define ECB_H*lerp(ECB_SB, 1.f, h*2)                // формула подгонки уровней яркости лайтмапов
-#define ECB_H2*lerp(ECB_SB, 1.f, h)                 // формула подгонки уровней яркости лайтмапов
-#define ECB_H3*lerp(ECB_SB, 1.f, h*3)               // формула подгонки уровней яркости лайтмапов (столбики и домики)
+#define ECB_H  *lerp(ECB_SB, 1.f, h*2)              // формула подгонки уровней яркости лайтмапов
+#define ECB_H2 *lerp(ECB_SB, 1.f, h)                // формула подгонки уровней яркости лайтмапов
+#define ECB_H3 *lerp(ECB_SB, 1.f, h*3)              // формула подгонки уровней яркости лайтмапов (столбики и домики)
 #define ECB_S1 0.045                                // base_aref_bump, base_aref_flat, base_flat, impl_bump
 #define ECB_S2 0.045                                // base_bump
 #define ECB_S3 0.045                                // impl_flat

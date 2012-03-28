@@ -16,12 +16,13 @@ half3	dof(float2 center, half3 sum)
 	uniform half4 e_kernel;
 #endif
 
+#include "blur.h"
+
 half3	dof(float2 center, half3 sum)
 {
 
 	float dep = tex2D( s_position, center ).z;
 	float targetDist = tex2D( s_position, float2( 0.500001f, 0.500001f ) ).z;
-
 	float mycof = ECB_DOF_MAXCOF;
 	float myMINDIST = ECB_DOF_MINDIST;
 	float myMAXDIST = ECB_DOF_MAXDIST;
@@ -39,6 +40,8 @@ half3	dof(float2 center, half3 sum)
 
 	#endif
 
+
+
 	if (targetDist <= myMAXNEAR)
 	{
 		myMAXNEAR = targetDist;
@@ -50,28 +53,16 @@ half3	dof(float2 center, half3 sum)
 		mycof = ECB_DOF_MAXCOF_NEAR;
 	}
 
-	half 	blur		= pow( saturate( ( dep - myMINDIST ) / ( myMAXDIST - myMINDIST ) ), 1 );
+	half 	blur		= saturate( ( dep - myMINDIST ) / ( myMAXDIST - myMINDIST ) );
 
-	half2 	scale 	= half2	( .5f / 1024.h, .5f / 768.h ) * mycof * blur;
+	half2 	scale = mycof * blur;
 
-	// poisson
-	static const half2 o [6] = 
-	{
-		half2( -0.326212f , -0.405810f ) * scale,
-		half2( -0.695914f ,  0.457137f ) * scale,
-		half2( 0.962340f , -0.194983f ) * scale,
-		half2( 0.519456f ,  0.767022f ) * scale,
-		half2( 0.507431f ,  0.064425f ) * scale,
-		half2( -0.321940f , -0.932615f ) * scale,
-	};
+	#if defined( ECB_AA ) && defined( ECB_DDOF_AIM )
+		scale = saturate( pow( ( abs( center.x - 0.5f ) + abs( center.y - 0.5f ) ), ECB_DDOF_AIM_CIRCLE ) ) * saturate(100/tex2D( s_position, center ).z);
+		#undef USE_MBLUR		
+	#endif
 
-	// sample 
-	for ( int i=0; i<6; i++ )
-	{
-		sum 		+= tex2D	( s_image, (float2) ( center + o[i] ) );
-	}
-
-	return 	half3	( sum / 6 );
+	return 	h_blur( center, scale/2 );
 
 }
 

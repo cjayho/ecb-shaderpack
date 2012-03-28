@@ -32,7 +32,7 @@ void        hmodel                 (out half3 hdiffuse, out half3 hspecular, hal
         half3         e0d               = texCUBE         (env_s0,nw);
         half3         e1d               = texCUBE         (env_s1,nw);
         half3         env_d             = env_color.xyz*lerp(e0d,e1d,env_color.w)        ;
-					env_d*=env_d;		// contrast
+	//				env_d*=env_d;		// contrast
         hdiffuse                        = env_d * light.xyz + L_ambient.rgb;
 
         // specular color
@@ -40,7 +40,7 @@ void        hmodel                 (out half3 hdiffuse, out half3 hspecular, hal
         half3         e0s               = texCUBE         (env_s0,vreflect);
         half3         e1s               = texCUBE         (env_s1,vreflect);
         half3         env_s             = env_color.xyz*lerp(e0s,e1s,env_color.w)        ;
-					env_s*=env_s;		// contrast
+	//				env_s*=env_s;		// contrast
         hspecular                       = env_s*light.w*s;                //*h*m*s        ;        //env_s        *light.w         * s;
 }
 
