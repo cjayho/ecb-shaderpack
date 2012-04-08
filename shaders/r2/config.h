@@ -9,6 +9,7 @@
 // Motion Blur and Bump
 //#define USE_MBLUR                                   // размытие картинки при движении
 #define ECB_MBUMP                                   // микроструктурный бамп
+#define ECB_DOUBLE_BUMP                             // удвоение контрастности бампа (как в оригинале “„)
 
 // Bloom
 #define ECB_BLOOM_DIV 0.69h                         // на каком значении картинка становитс€ блумом
@@ -20,7 +21,7 @@
 #define ECB_DOF                                     // Depth of Field
     #define ECB_DOF_MINDIST 0.5f                    // минимальное рассто€ние дл€ эффекта
     #define ECB_DOF_MAXDIST 600.f                   // максимальное рассто€ние дл€ эффекта
-    #define ECB_DOF_MAXCOF 4.f                      // максимальный фактор размыти€ удаленных объектов
+    #define ECB_DOF_MAXCOF 6.f                      // максимальный фактор размыти€ удаленных объектов
     #define ECB_DOF_MAXCOF_NEAR 4.f                 // максимальный фактор размыти€ близких объектов
     #define ECB_DOF_MAXNEAR float(0.7)              // рассто€ние до близкого кольца DoF с минимальным размытием
     #define ECB_DOF_MINNEAR float(0.0)              // рассто€ние до окончани€ близкого кольца DoF с максимальным размытием
@@ -31,7 +32,7 @@
     #define ECB_DDOF_MINDIST float(0.0)             // минимальное рассто€ние применени€ эффекта
     #define ECB_DDOF_MAXDIST float(10.0)            // максимальное рассто€ние применени€ эффекта
     #define ECB_DDOF_AIM                            // использовать размывку при прицеливании
-    #define ECB_DDOF_AIM_BLUR 7.5f                  // размытие в режиме прицеливани€
+    #define ECB_DDOF_AIM_BLUR 35.f                  // размытие в режиме прицеливани€
     #define ECB_DDOF_AIM_CIRCLE 1.75f               // размер неразмытого круга в центре экрана
 
 //#define ECB_SSAO                                  // Screen Space Ambient Occlusion
@@ -57,8 +58,8 @@
 #define ECB_SUN_SAT 0.9h                            // насыщенность солнца
 
 // Shadow
-#define ECB_SHADOW_KERNEL .9f                       // ширина одиночных полосок-переходов в тен€х
-#define ECB_SHADOW_STEPS 2                          // количество полосок перехода тени от светлой к темной (integer)
+#define ECB_SHADOW_KERNEL 1.0f                      // ширина одиночных полосок-переходов в тен€х
+#define ECB_SHADOW_STEPS 3                          // количество полосок перехода тени от светлой к темной (integer)
 //#define ECB_SHADOW_LENGTH 3.0f                      // длина теней
 
 // Lightmaps
