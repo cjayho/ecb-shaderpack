@@ -18,6 +18,7 @@ half3	dof(float2 center, half3 sum)
 
 #include "blur.h"
 
+
 half3	dof(float2 center, half3 sum)
 {
 
@@ -30,14 +31,14 @@ half3	dof(float2 center, half3 sum)
 	float myMINNEAR = ECB_DOF_MINNEAR;
 
 	#ifdef ECB_DDOF
-		#ifndef ECB_AA
-			if (targetDist < ECB_DOF_MAXDIST && targetDist > ECB_DDOF_MINDIST)
-			{
-				myMINDIST = targetDist + ECB_DDOF_MINDIST_ADD;
-				float maxFactor = (targetDist < ECB_DDOF_MAXDIST) ? 1 : (targetDist / ECB_DDOF_MAXDIST);
-				myMAXDIST = myMINDIST * ECB_DDOF_MAXDIST_FACTOR * maxFactor * 4;
-			}
-		#endif
+
+		if (targetDist < ECB_DOF_MAXDIST && targetDist > ECB_DDOF_MINDIST)
+		{
+			myMINDIST = targetDist + ECB_DDOF_MINDIST_ADD;
+			float maxFactor = (targetDist < ECB_DDOF_MAXDIST) ? 1 : (targetDist / ECB_DDOF_MAXDIST);
+			myMAXDIST = myMINDIST * ECB_DDOF_MAXDIST_FACTOR * maxFactor * 4;
+		}
+
 	#endif
 
 
@@ -57,11 +58,9 @@ half3	dof(float2 center, half3 sum)
 
 	half2 	scale = mycof * blur;
 
-	#ifdef ECB_DDOF_AIM
-		#ifdef ECB_AA
-			scale = saturate( pow( ( abs( center.x - 0.5f ) + abs( center.y - 0.5f ) ), ECB_DDOF_AIM_CIRCLE ) ) * saturate(100/tex2D( s_position, center ).z)*ECB_DDOF_AIM_BLUR;
-			#undef USE_MBLUR		
-		#endif
+	#if defined( ECB_AA ) && defined( ECB_DDOF_AIM )
+		scale = saturate( pow( ( abs( center.x - 0.5f ) + abs( center.y - 0.5f ) ), ECB_DDOF_AIM_CIRCLE ) ) * saturate(100/tex2D( s_position, center ).z);
+		#undef USE_MBLUR		
 	#endif
 
 	return 	h_blur( center, scale/2 );

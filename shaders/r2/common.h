@@ -284,7 +284,7 @@ float3	v_sun           (float3 n)                        	{        return L_sun_
 float3	v_sun_wrap      (float3 n, float w)                	{        return L_sun_color*(w+(1-w)*dot(n,-L_sun_dir_w));      }
 half3   p_hemi          (float2 tc)                         {
         half4        	t_lmh         = tex2D             	(s_hemi, tc);
-        return t_lmh.rgb*t_lmh.a;
+        return sat( t_lmh.rgba*t_lmh.a, 0.5 ).rgb;
 //        half4        	t_lmh         = tex2D             	(s_hemi, tc);
 //        return t_lmh.a;
 }

@@ -1,0 +1,28 @@
+#include "common.h"
+#include "shadow.h"
+
+struct	p_TL
+{
+	float2 	Tex0	: TEXCOORD0;
+	float4	Color	: COLOR0;
+};
+
+#define ECB_NEW_GRADIENT
+
+//////////////////////////////////////////////////////////////////////////////////////////
+// Pixel
+float4 main( p_TL I ) : COLOR
+{
+
+	#ifdef ECB_NEW_GRADIENT
+		return float4( tex2D( s_image, I.Tex0 ).rgb * sat( L_sun_color.rgbb, .5f ).rgb * .8f, 1.f );
+	#else
+
+		#ifdef ECB_SHADER_RESTORE_SUN
+			return saturation( tex2D( s_base, I.Tex0 ) * float4( L_sun_color, 1 ) );
+		#else
+			return saturation( tex2D( s_base, I.Tex0 ) * float4( L_sun_color, I.Color.w ) );
+		#endif
+
+	#endif
+}

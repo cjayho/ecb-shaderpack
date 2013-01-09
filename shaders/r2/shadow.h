@@ -52,45 +52,69 @@ half 	shadow_sw	(float4 tc)	{
 //////////////////////////////////////////////////////////////////////////////////////////
 half  	sample_hw_pcf	(float4 tc,float4 shift){
 	static const float 	ts = ECB_SHADOW_KERNEL / float(SMAP_size);
-	return tex2Dproj (s_smap,tc + tc.w*shift*ts).x;
+
+//	half tst = tex2Dproj( s_smap, tc + tc.w * shift * ts ).x;
+//	return tst;
+
+	float4 tc2 = tc / tc.w + shift * ts;
+	tc2.w = 0;
+	return tex2Dlod(s_smap, tc2);
+
 }
-
-
 half 	shadow_hw	( float4 tc )
 {
 
 /*
-Modded by cj ayho (ecb team). 29.08.2010 
-цель модификации - реализаци€ м€гких теней.
+Modded by cj ayho (ecb team). 29.08.2010. цель модификации - реализаци€ м€гких теней.
+version 1.1 by cj ayho (ecb team) 13.04.2011 - оптимизаци€
+
 <mod>
 */
 
-  half  s0;
+  half4 s0;
+
   int n = ECB_SHADOW_STEPS;
 
-	for( int i = 1; i <= n; i++ )
+	for( int i = 0; i < n; i++ )
 	{
-		s0 += sample_hw_pcf	( tc, float4( -i, -i, 0, 0 ) ); 
-		s0 += sample_hw_pcf	( tc, float4( +i, -i, 0, 0 ) ); 
-		s0 += sample_hw_pcf	( tc, float4( -i, +i, 0, 0 ) ); 
-		s0 += sample_hw_pcf	( tc, float4( +i, +i, 0, 0 ) ); 
-		s0 += sample_hw_pcf	( tc, float4( 0, +i, 0, 0 ) ); 
-		s0 += sample_hw_pcf	( tc, float4( 0, -i, 0, 0 ) ); 
-		s0 += sample_hw_pcf	( tc, float4( +i, 0, 0, 0 ) ); 
-		s0 += sample_hw_pcf	( tc, float4( -i, 0, 0, 0 ) ); 
 
-		// “аким вот простым извратом мы получили 
-		// нормальные тени и не такой ужасающий бамп текстур
+		float3 a1 = float3( 0, +i, -i );
+		float3 a2 = float3( 0, +i + 1, -i - 1 );
+		float3 a3 = float3( 0, +i + 2, -i - 2 );
+
+		s0.x += sample_hw_pcf ( tc, a1.zzxx );
+		s0.y += sample_hw_pcf ( tc, a1.yzxx );
+		s0.z += sample_hw_pcf ( tc, a1.zyxx );
+		s0.w += sample_hw_pcf ( tc, a1.yyxx );
+
+		s0.x += sample_hw_pcf ( tc, a1.xyxx );
+		s0.y += sample_hw_pcf ( tc, a1.xzxx );
+		s0.z += sample_hw_pcf ( tc, a1.yxxx );
+		s0.w += sample_hw_pcf ( tc, a1.zxxx );
+
+		s0.x += sample_hw_pcf ( tc, a2.zzxx );
+		s0.y += sample_hw_pcf ( tc, a2.yzxx );
+		s0.z += sample_hw_pcf ( tc, a2.zyxx );
+		s0.w += sample_hw_pcf ( tc, a2.yyxx );
+
+		s0.x += sample_hw_pcf ( tc, a2.xyxx );
+		s0.y += sample_hw_pcf ( tc, a2.xzxx );
+		s0.z += sample_hw_pcf ( tc, a2.yxxx );
+		s0.w += sample_hw_pcf ( tc, a2.zxxx );
+
+		s0.x += sample_hw_pcf ( tc, a3.zzxx );
+		s0.y += sample_hw_pcf ( tc, a3.yzxx );
+		s0.z += sample_hw_pcf ( tc, a3.zyxx );
+		s0.w += sample_hw_pcf ( tc, a3.yyxx );
+
+		s0.x += sample_hw_pcf ( tc, a3.xyxx );
+		s0.y += sample_hw_pcf ( tc, a3.xzxx );
+		s0.z += sample_hw_pcf ( tc, a3.yxxx );
+		s0.w += sample_hw_pcf ( tc, a3.zxxx );
+
 	}
 
-	n *= 8;
-
-	if( n < 1 ) // ƒивижан Ѕайзира детектед ;)
-	{
-		n = 1;
-	}
-
-	return( s0 / n );
+	return dot ( s0, 1.f / ( 24 * n ) );
 /*
 </mod>
 */
