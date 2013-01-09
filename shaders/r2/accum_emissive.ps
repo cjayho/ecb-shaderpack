@@ -2,5 +2,5 @@
 
 half4  main  ( p_flat I )  : COLOR
 {
-  return   (half4) ECB_EMISSIVE_MUL;
+  return   half4( (half3) ECB_EMISSIVE_MUL, 8 );
 }

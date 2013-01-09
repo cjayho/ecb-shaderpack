@@ -14,7 +14,7 @@
 // Bloom
 #define ECB_BLOOM_DIV 0.69h                         // на каком значении картинка становится блумом
 #define ECB_BLOOM_SKYDIV 0.95h                      // на каком значении картинка становится блумом (небо)
-#define ECB_BLOOM_BRIGHTNESS 0.5f                   // яркость блума
+#define ECB_BLOOM_BRIGHTNESS 0.25f                   // яркость блума
 #define ECB_SPECULAR 0.61f                          // яркость бликов
 //#define ECB_LCOMPRESS                               // bloom 2218
 
