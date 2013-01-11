@@ -1,6 +1,14 @@
 #ifndef	DOF_H_INCLUDED
 #define	DOF_H_INCLUDED
 
+/*
+Thanks to Meltac <metzinger@gmx.net> (His mod "Dynamic shaders" is here: http://www.moddb.com/mods/dynamic-shaders) 
+    for Depth of Field and Dynamic Depth of Field efect code. DoF and DDoF code is used under his permission. 
+--------------
+Спасибо Meltac <metzinger@gmx.net> (Его мод "Dynamic shaders" здесь: http://www.moddb.com/mods/dynamic-shaders) 
+    за алгоритм Depth of Field. Код DoF используется с его разрешения. 
+*/
+
 #ifndef	ECB_DOF
 
 half3	dof(float2 center, half3 sum)
