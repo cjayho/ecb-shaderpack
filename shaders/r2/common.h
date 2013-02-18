@@ -289,6 +289,27 @@ half3   p_hemi          (float2 tc)                         {
 //        return t_lmh.a;
 }
 
+//	contrast function
+half Contrast(half Input, half ContrastPower)
+{
+     //piecewise contrast function
+     bool IsAboveHalf = Input > 0.5 ;
+     half ToRaise = saturate(2*(IsAboveHalf ? 1-Input : Input));
+     half Output = 0.5*pow(ToRaise, ContrastPower);
+     Output = IsAboveHalf ? 1-Output : Output;
+     return Output;
+}
+
+	float4 convert_to_screen_space(float4 proj)
+	{
+		float4 screen;
+		screen.x = (proj.x + proj.w)*0.5;
+		screen.y = (proj.w - proj.y)*0.5;
+		screen.z = proj.z;
+		screen.w = proj.w;
+		return screen;
+	}
+
 #define FXPS technique _render{pass _code{PixelShader=compile ps_3_0 main();}}
 #define FXVS technique _render{pass _code{VertexShader=compile vs_3_0 main();}}
 

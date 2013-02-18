@@ -40,15 +40,13 @@ half4 	main		( v2p I )	: COLOR
 
     half3 	img 	= tex2D		(s_image, center);
 
-#ifdef ECB_GODRAYS
-    half4 	bloom	= tex2D		(s_bloom, center)+godrays(center);
+#if defined( OGSE_GODRAYS )
+    half4 	bloom	= tex2D		(s_bloom, center);
+	img 	= mblur		(center,tex2D(s_position,I.tc0),img.rgb)+godrays(center,img);
 #else
 	half4 	bloom	= tex2D		(s_bloom, center);
+	img 	= mblur		(center,tex2D(s_position,I.tc0),img.rgb);
 #endif
-
-
-	
-			img 	= mblur		(center,tex2D(s_position,I.tc0),img.rgb);
 
 #ifdef 	USE_DISTORT
  	half3	blurred	= bloom*def_hdr	;

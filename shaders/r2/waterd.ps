@@ -25,14 +25,13 @@ half4        main        ( v2p I )        : COLOR
 
 	//	Igor: additional depth test
 #ifdef	USE_SOFT_WATER
-#ifdef	NEED_SOFT_WATER
-	half	alphaDistort;
-	half4 _P               = tex2Dproj         (s_position,         I.tctexgen);
+
+	half4 _P = 	tex2Dproj( s_position, I.tctexgen); 
 	half waterDepth = _P.z-I.tctexgen.z;
-	alphaDistort = saturate(5*waterDepth);
+
+	half alphaDistort = saturate(5*waterDepth);
 	faded = lerp  ( zero, faded, alphaDistort);
-#endif	//	NEED_SOFT_WATER
-#endif	//	USE_SOFT_WATER & NEED_SOFT_WATER
+#endif	//	USE_SOFT_WATER
 
         half2        faded_bx2        = (faded*2-1)*W_DISTORT_POWER;
         half         faded_dot        = dot        (half3(faded_bx2,0),.75        );        //0.75
@@ -43,9 +42,9 @@ half4        main        ( v2p I )        : COLOR
 
         // out
 	//	Igor: need for alpha water
-#ifdef	NEED_SOFT_WATER
+#ifdef	USE_SOFT_WATER
 	return  half4  (faded, 0.0h, alpha);
-#else	//	NEED_SOFT_WATER
+#else	//	USE_SOFT_WATER
         return  half4  (faded, .08h, alpha);
-#endif	//	NEED_SOFT_WATER
+#endif	//	USE_SOFT_WATER
 }

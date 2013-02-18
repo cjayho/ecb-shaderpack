@@ -48,7 +48,11 @@ _____________________________________________________________________________
 
 17) Reflective water on R2
 
-18) Experimental feature - sunshafts aka godRays on R2
+18) GodRays on R2 + dust effect in rays
+
+19) Soft particles on R2
+
+20) Soft water on R2.
 
 Plus many subtle adjustments and improvements on both renders
 
@@ -96,5 +100,4 @@ Meltac <metzinger@gmx.net> (His mod "Dynamic shaders" is here: http://www.moddb.
 
 Sky4CE for the algorythm of SSAO effect
 
-
-   
+K.D. for algorythms of soft water, soft particles, GodRays.

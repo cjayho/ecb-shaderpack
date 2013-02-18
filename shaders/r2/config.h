@@ -47,11 +47,25 @@
     #define ECB_LTRAIL_USE_THRESHOLD                // убирать хвосты при отсутствии движени€
     #define ECB_LTRAIL_THRESHOLD 100.f              // скорость движени€ дл€ по€влени€ хвоста
 
-#define ECB_GODRAYS                                 // GodRays
-    #define ECB_GR_SAMPLES 20                       // кол-во сэмплов
-    #define ECB_GR_DENSITY .75f                     // рассто€ние между сэмплами
-    #define ECB_GR_DECAY .8f                        // каждый новый сэмпл множитс€ на этот коэф.
-    #define ECB_GR_EXPOSURE float3( .2, .2, .2 )    // умножаем на эту цифру все что получилось
+#define OGSE_GODRAYS
+    #define OGSE_GODRAYS_FARPLANE float(180.0)
+    #define OGSE_GODRAYS_PRESET 2
+    //#define OGSE_GODRAYS_SAMPLES 50
+    // качество саншафтов включаетс€ в консоли: r2_sun_shafts. 0 - выкл, 1 - низкое качество (20 семплов), 2 - среднее качество (50 семплов), 3 - высокое качество (100 семплов).  онкретные значени€ настраивайте в ogse_sunshafts.h
+    #define OGSE_GODRAYS_DENSITY float(0.7)          // "плотность" лучей, чем меньше, тем они короче, но тем выше качество
+    #define OGSE_GODRAYS_BLEND_FACTOR float(0.8)     // фактор смешивани€ с рассе€нным светом. „ем меньше значение, тем меньше "засветка" от эффекта, но тер€етс€ "объемность"
+    #define OGSE_GODRAYS_DUST                        // включить пыль в саншафтах
+    #define OGSE_GODRAYS_DUST_SPEED float(0.4)       // скорость частиц пыли 
+    #define OGSE_GODRAYS_DUST_INTENSITY float(9.0)   // €ркость пылинок
+    #define OGSE_GODRAYS_DUST_DENSITY float(1.0)     // плотность частиц пыли 
+    #define OGSE_GODRAYS_DUST_SIZE float(0.7)        // размер пылинок
+
+#define SW_USE_FOAM                                  // включить "пену" прибо€
+#define SW_FOAM_THICKNESS half (0.035)               // толщина "пены"
+#define SW_WATER_INTENSITY half (1.0)                // глубина цвета воды
+
+#define USE_SOFT_PARTICLES                           // ћ€гкие партиклы
+#define USE_SOFT_WATER                               // ћ€гка€ вода
 
 // Fog
 #define ECB_FOG_COLOR 0.25                          // умножение €ркости тумана (fog_color)
