@@ -1,15 +1,14 @@
 
-     ECB-Shaderpack
+#     ECB-Shaderpack
 
-     Improved shader pack for the game S.T.A.L.K.E.R.: Shadow of Chernobyl
-_____________________________________________________________________________
+#     Improved shader pack for the game S.T.A.L.K.E.R.: Shadow of Chernobyl
+     
+#     Revision 0014
+________________________________________________________________________________________
 
-     Revision 0014
 
-
-
-     Features:
-    _______________________
+ #    Features:
+_______________________
 
 1) Opaque fog in R2, ability to swicth using configfile to opaque/transparent fog
 
@@ -56,8 +55,8 @@ _____________________________________________________________________________
 
 Plus many subtle adjustments and improvements on both renders
 
-     Terms of use
-    _______________________
+#     Terms of use
+_______________________
 
 This product is distributed under the terms of Creative Commons CC-BY 3.0,
 More details here: http://creativecommons.org/licenses/by/3.0/deed.ru
@@ -65,8 +64,8 @@ Maintainer of ECB-shaderpack is cjayho
 
 New releases are available here http://code.google.com/p/ecb-shaderpack/downloads/list
 
-     Installation
-    ___________
+#     Installation
+___________________
 
 This product was tested on game versions 1.0004 and 1.0006
 Just copy mod's files to gamedata folder in the root directory of game
@@ -80,8 +79,8 @@ For correct drawing of shadows you can set game console variables in values:
 r2_sun_near_border 1
 r2_sun_near 20
 
-     Thanks to
-    _______________
+#     Thanks to
+__________________
 
 Sergy172 for ideas and testing/
 
