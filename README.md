@@ -58,7 +58,7 @@ This product is distributed under the terms of Creative Commons CC-BY 3.0,
 More details here: http://creativecommons.org/licenses/by/3.0/deed.ru
 Maintainer of ECB-shaderpack is cjayho
 
-New releases are available here http://code.google.com/p/ecb-shaderpack/downloads/list
+New releases are available here https://github.com/cjayho/ecb-shaderpack
 
 # Installation
 
